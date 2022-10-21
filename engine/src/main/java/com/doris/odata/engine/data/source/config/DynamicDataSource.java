@@ -72,9 +72,6 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
      */
     @Override
     protected DataSource determineTargetDataSource() {
-        Thread t = Thread.currentThread();
-        String name = t.getName();
-        log.info("dataSourceName:{}",name);
         String lookupKey = (String) determineCurrentLookupKey();
         log.info("使用数据源：{}", lookupKey);
         return DynamicDataSourceFactory.getDataSource(lookupKey);

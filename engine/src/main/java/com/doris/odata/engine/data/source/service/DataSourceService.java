@@ -75,9 +75,6 @@ public class DataSourceService {
             }
             DynamicDataSourceFactory.addDataSource(sourceDetail.get());
         }
-        Thread t = Thread.currentThread();
-        String name = t.getName();
-        log.info("name:{}", name);
         DataSourceContext.setDataSource(dataSourceKey);
         Query nativeQuery = entityManager.createNativeQuery(sql);
         List resultList = nativeQuery.getResultList();
