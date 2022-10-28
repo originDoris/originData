@@ -8,7 +8,7 @@ import com.doris.odata.common.enums.ErrorCode;
  * @Description:
  * @date: 2022/10/18 11:26
  */
-public class DataSourceException extends HDataException{
+public class DataSourceException extends OriginDataException{
     public DataSourceException(Integer errorCode, String errorMsg) {
         super(errorCode, errorMsg);
     }

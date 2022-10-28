@@ -21,7 +21,7 @@ import java.util.Date;
 @Data
 @Entity
 @TypeDef(name = "json", typeClass = JsonStringType.class)
-@Table(name = "hdata_data_source")
+@Table(name = "origin_data_data_source")
 @Proxy(lazy = false)
 public class Source extends BaseModel {
 

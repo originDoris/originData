@@ -2,7 +2,7 @@ package com.doris.odata.engine.data.source;
 
 import com.alibaba.fastjson2.JSON;
 import com.doris.odata.api.ApiApplication;
-import com.doris.odata.common.exception.HDataException;
+import com.doris.odata.common.exception.OriginDataException;
 import com.doris.odata.common.util.Base64Util;
 import com.doris.odata.engine.data.source.executor.rds.MySqlExecutor;
 import com.doris.odata.engine.data.source.model.Source;
@@ -68,7 +68,7 @@ public class SourceTest {
     }
 
     @Test
-    public void testExecutorQuery() throws HDataException {
+    public void testExecutorQuery() throws OriginDataException {
         Source source = new Source();
         source.setSourceName("test");
         source.setSourceType("mysql");

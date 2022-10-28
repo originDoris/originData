@@ -1,6 +1,6 @@
 package com.doris.odata.engine.data.source.executor.rds;
 
-import com.doris.odata.common.exception.HDataException;
+import com.doris.odata.common.exception.OriginDataException;
 import com.doris.odata.engine.data.source.constant.DataSourceConstant;
 import com.doris.odata.engine.data.source.executor.RdbExecutor;
 import com.doris.odata.engine.data.source.model.Source;
@@ -26,7 +26,7 @@ public class MySqlExecutor implements RdbExecutor {
     }
 
     @Override
-    public List<Map> query(Source source, String sql) throws HDataException {
+    public List<Map> query(Source source, String sql) throws OriginDataException {
         return dataSourceService.execNativeQuery(sql, source.getSourceCode());
     }
 

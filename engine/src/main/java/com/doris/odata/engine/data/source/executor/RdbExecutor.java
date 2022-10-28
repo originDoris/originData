@@ -1,6 +1,6 @@
 package com.doris.odata.engine.data.source.executor;
 
-import com.doris.odata.common.exception.HDataException;
+import com.doris.odata.common.exception.OriginDataException;
 import com.doris.odata.engine.data.source.model.Source;
 
 import java.util.List;
@@ -21,7 +21,7 @@ public interface RdbExecutor extends DataSourceExecutor{
      * @param sql sql语句
      * @return
      */
-    List<Map> query(Source source, String sql) throws HDataException;
+    List<Map> query(Source source, String sql) throws OriginDataException;
 
 
 

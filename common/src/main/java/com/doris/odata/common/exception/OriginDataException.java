@@ -6,30 +6,30 @@ import java.text.MessageFormat;
 
 /**
  * @author: origindoris
- * @Title: HDataException
+ * @Title: OriginDataException
  * @Description: 全局异常
  * @date: 2022/10/18 11:21
  */
-public class HDataException extends Exception {
+public class OriginDataException extends Exception {
 
     private static final String ERROR_MSG_FORMAT = "{0}({1})";
     private Integer errorCode;
 
     private String errorMsg;
 
-    public HDataException(Integer errorCode, String errorMsg) {
+    public OriginDataException(Integer errorCode, String errorMsg) {
         super(errorMsg);
         this.errorCode = errorCode;
         this.errorMsg = errorMsg;
     }
 
-    public HDataException(ErrorCode errorCode) {
+    public OriginDataException(ErrorCode errorCode) {
         super(errorCode.getMsg());
         this.errorCode = errorCode.getCode();
         this.errorMsg = errorCode.getMsg();
     }
 
-    public HDataException(ErrorCode errorCode, String detailMsg) {
+    public OriginDataException(ErrorCode errorCode, String detailMsg) {
         super(errorCode.getMsg());
         String errMsg = MessageFormat.format(ERROR_MSG_FORMAT, errorCode.getMsg(), detailMsg);
         this.errorCode = errorCode.getCode();
