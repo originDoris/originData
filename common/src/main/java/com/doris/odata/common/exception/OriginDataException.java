@@ -51,4 +51,13 @@ public class OriginDataException extends Exception {
     public String getErrorMsg() {
         return errorMsg;
     }
+
+
+    @Override
+    public String toString() {
+        return "OriginDataException{" +
+                "errorCode=" + errorCode +
+                ", errorMsg='" + errorMsg + '\'' +
+                '}';
+    }
 }

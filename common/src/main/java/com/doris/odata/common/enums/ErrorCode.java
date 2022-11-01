@@ -22,8 +22,15 @@ public enum ErrorCode {
     /**
      * 2000 ~ 2999 流程执行异常
      */
-    PROCESS_DATA_SOURCE_NOT_EXIST(2000,"process data source not exist!")
+    PROCESS_DATA_SOURCE_NOT_EXIST(2000,"process data source not exist!"),
 
+    /**
+     * 3000 ~ 3999 图表执行异常
+     */
+    CHART_CONFIG_ERROR(3000,"Chart configuration error！"),
+    CHART_TYPE_ILLEGAL(3001, "Chart type illegal!"),
+    CHART_SOURCE_TYPE_ILLEGAL(3001, "Chart source type illegal!"),
+    CHART_USES_SOURCE_NOT_EXIST(3002, "Chart uses data source that does not exist!"),
 
 
 

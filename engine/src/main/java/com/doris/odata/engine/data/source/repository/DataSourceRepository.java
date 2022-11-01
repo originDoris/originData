@@ -14,8 +14,4 @@ import java.util.Map;
  */
 public interface DataSourceRepository extends AbstractCommonRepository<Source, Long> {
 
-
-    @Query(value = "select * from flow_instance;", nativeQuery = true)
-    Map<String, Object> query(String sql);
-
 }

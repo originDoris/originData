@@ -93,6 +93,7 @@ public class DataSourceService {
      * @param source
      * @return
      */
+    @Transactional
     public Source save(@Valid @NotNull(message = "数据源信息不能为空！") Source source) throws DataSourceException {
         UserInfo userInfo = UserInfoThreadLocal.get();
         JSONObject sourceProperty = source.getSourceProperty();
@@ -104,5 +105,10 @@ public class DataSourceService {
         source.setCreatorName(userInfo.getNick());
         source.setTenantCode(userInfo.getTenantCode());
         return dataSourceRepository.save(source);
+    }
+
+    public Source detailByCode(@NotBlank(message = "数据源代码不能为空！") String sourceCode){
+        Optional<Source> optional = dataSourceRepository.findOne((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(DataSourceConstant.SOURCE_CODE), sourceCode));
+        return optional.orElse(null);
     }
 }

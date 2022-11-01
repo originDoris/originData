@@ -24,6 +24,7 @@ public class UserInfoThreadLocal {
             userInfo.setName("谢浩哲");
             userInfo.setNick("桓温");
             userInfo.setEmpId("4929");
+            userInfo.setTenantCode("test");
             UserInfoThreadLocal.set(userInfo);
             set(userInfo);
         }
