@@ -1,11 +1,17 @@
 package com.doris.odata.engine.chart.model;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.doris.odata.common.model.BaseModel;
 import com.vladmihalcea.hibernate.type.json.JsonStringType;
 import lombok.Data;
 import org.hibernate.annotations.Proxy;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -23,37 +29,11 @@ import java.util.Date;
 @TypeDef(name = "json", typeClass = JsonStringType.class)
 @Table(name = "origin_data_chart")
 @Proxy(lazy = false)
-public class Chart {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Long id;
-
-    @Column(name = "gmt_create")
-    @Temporal(TemporalType.TIMESTAMP)
-    protected Date gmtCreate;
-
-    @Column(name = "gmt_modified")
-    @Temporal(TemporalType.TIMESTAMP)
-    protected Date gmtModified;
-
-    @Column(name = "delete_flag")
-    protected Boolean deleteFlag;
-
-    @Column(name = "creator")
-    protected String creator;
-
-    @Column(name = "creatorName")
-    protected String creatorName;
-
-    @Column(name = "tenant_code")
-    private String tenantCode;
-
+@EntityListeners(AuditingEntityListener.class)
+public class Chart extends BaseModel {
     @Column(name = "source_code")
     @NotBlank(message = "数据源名称不能为空！")
     private String sourceCode;
-
-    @Column(name = "tenant_name")
-    private String tenantName;
 
     @Column(name = "query_config")
     @Type(type = "json")

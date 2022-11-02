@@ -31,11 +31,6 @@ public class DynamicDataSourceFactory {
 
     private static Map<String, DataSource> dataSourceMap =  new ConcurrentHashMap<>(1);
 
-    @PostConstruct
-    public void init() throws DataSourceException {
-        // todo 初始化时将数据源缓存起来会造成循环依赖
-    }
-
 
     public static List<DataSource> list(){
        return new ArrayList<>(dataSourceMap.values());

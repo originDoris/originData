@@ -1,17 +1,18 @@
 package com.doris.odata.engine.data.source.model;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.doris.odata.common.constant.DeleteFlagConstant;
 import com.doris.odata.common.model.BaseModel;
 import com.vladmihalcea.hibernate.type.json.JsonStringType;
 import lombok.Data;
 import org.hibernate.annotations.Proxy;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.util.Date;
+
 
 /**
  * @author: origindoris
@@ -24,12 +25,8 @@ import java.util.Date;
 @TypeDef(name = "json", typeClass = JsonStringType.class)
 @Table(name = "origin_data_data_source")
 @Proxy(lazy = false)
+@Where(clause = DeleteFlagConstant.DELETE_FIELD + " = '" + DeleteFlagConstant.NO + "'")
 public class Source extends BaseModel {
-
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Long id;
 
     @Column(name = "source_type")
     @NotBlank(message = "数据源类型不能为空！")
@@ -44,29 +41,6 @@ public class Source extends BaseModel {
     @NotBlank(message = "数据源属性不能为空！")
     private JSONObject sourceProperty;
 
-    @Column(name = "tenant_code")
-    private String tenantCode;
-
     @Column(name = "source_code")
     private String sourceCode;
-
-    @Column(name = "tenant_name")
-    private String tenantName;
-
-    @Column(name = "gmt_create")
-    @Temporal(TemporalType.TIMESTAMP)
-    protected Date gmtCreate;
-
-    @Column(name = "gmt_modified")
-    @Temporal(TemporalType.TIMESTAMP)
-    protected Date gmtModified;
-
-    @Column(name = "delete_flag")
-    protected Boolean deleteFlag;
-
-    @Column(name = "creator")
-    protected String creator;
-
-    @Column(name = "creatorName")
-    protected String creatorName;
 }
