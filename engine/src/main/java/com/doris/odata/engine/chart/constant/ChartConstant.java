@@ -1,5 +1,7 @@
 package com.doris.odata.engine.chart.constant;
 
+import com.doris.odata.common.constant.DeleteFlagConstant;
+
 /**
  * @author: origindoris
  * @Title: ChartConstant
@@ -8,5 +10,9 @@ package com.doris.odata.engine.chart.constant;
  */
 public class ChartConstant {
 
+    public static final String TABLE_NAME = "origin_data_chart";
     public static final String CHART_CODE = "chartCode";
+
+    public static final String DELETE_SQL = "UPDATE " + TABLE_NAME + " SET " + DeleteFlagConstant.DELETE_FIELD + " = '" + DeleteFlagConstant.YES + "' where id = ?";
+
 }

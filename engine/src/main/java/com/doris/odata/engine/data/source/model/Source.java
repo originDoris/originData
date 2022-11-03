@@ -3,14 +3,14 @@ package com.doris.odata.engine.data.source.model;
 import com.alibaba.fastjson2.JSONObject;
 import com.doris.odata.common.constant.DeleteFlagConstant;
 import com.doris.odata.common.model.BaseModel;
+import com.doris.odata.engine.data.source.constant.DataSourceConstant;
 import com.vladmihalcea.hibernate.type.json.JsonStringType;
 import lombok.Data;
-import org.hibernate.annotations.Proxy;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
 
@@ -23,9 +23,11 @@ import javax.validation.constraints.NotBlank;
 @Data
 @Entity
 @TypeDef(name = "json", typeClass = JsonStringType.class)
-@Table(name = "origin_data_data_source")
+@Table(name = DataSourceConstant.SOURCE_TABLE_NAME)
 @Proxy(lazy = false)
-@Where(clause = DeleteFlagConstant.DELETE_FIELD + " = '" + DeleteFlagConstant.NO + "'")
+@Where(clause = DeleteFlagConstant.WHERE)
+@SQLDelete(sql = DataSourceConstant.DELETE_SQL)
+@SQLDeleteAll(sql = DataSourceConstant.DELETE_SQL)
 public class Source extends BaseModel {
 
     @Column(name = "source_type")

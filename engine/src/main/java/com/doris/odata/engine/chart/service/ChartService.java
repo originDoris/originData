@@ -65,12 +65,18 @@ public class ChartService {
     }
 
 
-    public Chart detailByCode(@NotBlank(message = "图表代码不能为空！") String chartCode){
-        Optional<Chart> optional = chartRepository.findOne((root, query, criteriaBuilder) -> {
-            criteriaBuilder.equal(root.get(ChartConstant.CHART_CODE), chartCode);
-            return criteriaBuilder.and(criteriaBuilder.equal(root.get(ChartConstant.CHART_CODE), chartCode));
-        });
-        return optional.orElse(null);
+    public Optional<Chart> detailByCode(@NotBlank(message = "图表代码不能为空！") String chartCode){
+        return chartRepository.findOne((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(ChartConstant.CHART_CODE), chartCode));
+    }
+
+
+    public void deleteByCode(@NotBlank(message = "图表代码不能为空！") String chartCode) throws ChartException {
+        Optional<Chart> optional = detailByCode(chartCode);
+        if (optional.isEmpty()) {
+            throw new ChartException(ErrorCode.CHART_NOT_EXIST);
+        }
+        Chart chart = optional.get();
+        chartRepository.deleteById(chart.getId());
     }
 
 

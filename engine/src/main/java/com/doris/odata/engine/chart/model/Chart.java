@@ -1,12 +1,13 @@
 package com.doris.odata.engine.chart.model;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.doris.odata.common.constant.DeleteFlagConstant;
 import com.doris.odata.common.model.BaseModel;
+import com.doris.odata.engine.chart.constant.ChartConstant;
+import com.doris.odata.engine.data.source.constant.DataSourceConstant;
 import com.vladmihalcea.hibernate.type.json.JsonStringType;
 import lombok.Data;
-import org.hibernate.annotations.Proxy;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.*;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -14,6 +15,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
@@ -27,9 +30,12 @@ import java.util.Date;
 @Data
 @Entity
 @TypeDef(name = "json", typeClass = JsonStringType.class)
-@Table(name = "origin_data_chart")
-@Proxy(lazy = false)
 @EntityListeners(AuditingEntityListener.class)
+@Table(name = ChartConstant.TABLE_NAME)
+@Proxy(lazy = false)
+@Where(clause = DeleteFlagConstant.WHERE)
+@SQLDelete(sql = ChartConstant.DELETE_SQL)
+@SQLDeleteAll(sql = ChartConstant.DELETE_SQL)
 public class Chart extends BaseModel {
     @Column(name = "source_code")
     @NotBlank(message = "数据源名称不能为空！")

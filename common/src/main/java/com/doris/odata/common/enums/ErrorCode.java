@@ -31,6 +31,7 @@ public enum ErrorCode {
     CHART_TYPE_ILLEGAL(3001, "Chart type illegal!"),
     CHART_SOURCE_TYPE_ILLEGAL(3001, "Chart source type illegal!"),
     CHART_USES_SOURCE_NOT_EXIST(3002, "Chart uses data source that does not exist!"),
+    CHART_NOT_EXIST(3003,"chart not exist！")
 
 
 

@@ -1,5 +1,7 @@
 package com.doris.odata.engine.data.source.constant;
 
+import com.doris.odata.common.constant.DeleteFlagConstant;
+
 /**
  * @author: origindoris
  * @Title: DataSourceConstant
@@ -7,6 +9,10 @@ package com.doris.odata.engine.data.source.constant;
  * @date: 2022/10/18 11:18
  */
 public class DataSourceConstant {
+
+    public static final String SOURCE_TABLE_NAME = "origin_data_data_source";
+
+    public static final String DELETE_SQL = "UPDATE " + DataSourceConstant.SOURCE_TABLE_NAME + " SET " + DeleteFlagConstant.DELETE_FIELD + " = '" + DeleteFlagConstant.YES + "' where id = ?";
     public static final String SOURCE_PROPERTY_TYPE = "type";
 
     public static final String SOURCE_TYPE = "sourceType";
