@@ -9,8 +9,10 @@ import com.doris.odata.common.model.UserInfo;
 import com.doris.odata.common.util.StrongUuidGenerator;
 import com.doris.odata.engine.data.source.constant.DataSourceConstant;
 import com.doris.odata.engine.data.source.context.DataSourceContext;
+import com.doris.odata.engine.data.source.enums.SourceTypeEnum;
 import com.doris.odata.engine.data.source.factory.DynamicDataSourceFactory;
 import com.doris.odata.engine.data.source.model.Source;
+import com.doris.odata.engine.data.source.model.SourceType;
 import com.doris.odata.engine.data.source.repository.DataSourceRepository;
 import com.doris.odata.engine.data.source.util.SourcePropertyUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -111,4 +113,16 @@ public class DataSourceService {
         Optional<Source> optional = dataSourceRepository.findOne((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(DataSourceConstant.SOURCE_CODE), sourceCode));
         return optional.orElse(null);
     }
+
+    public List<SourceType> getSourceType() {
+        List<SourceType> sourceTypes = new ArrayList<>();
+        for (SourceTypeEnum value : SourceTypeEnum.values()) {
+            SourceType sourceType = new SourceType();
+            sourceType.setDesc(value.getDesc());
+            sourceType.setType(value.getType());
+            sourceTypes.add(sourceType);
+        }
+        return sourceTypes;
+    }
+
 }

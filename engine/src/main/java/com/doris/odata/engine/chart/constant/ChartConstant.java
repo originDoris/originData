@@ -13,6 +13,6 @@ public class ChartConstant {
     public static final String TABLE_NAME = "origin_data_chart";
     public static final String CHART_CODE = "chartCode";
 
-    public static final String DELETE_SQL = "UPDATE " + TABLE_NAME + " SET " + DeleteFlagConstant.DELETE_FIELD + " = '" + DeleteFlagConstant.YES + "' where id = ?";
+    public static final String DELETE_SQL = "UPDATE " + TABLE_NAME + " SET delete_flag = '" + DeleteFlagConstant.YES + "' where id = ?";
 
 }
