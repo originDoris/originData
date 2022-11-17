@@ -1,12 +1,13 @@
 package com.doris.odata.api.source;
 
+import com.doris.odata.common.exception.DataSourceException;
 import com.doris.odata.common.model.Result;
+import com.doris.odata.engine.data.source.model.Source;
 import com.doris.odata.engine.data.source.model.SourceType;
 import com.doris.odata.engine.data.source.service.DataSourceService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/source")
+@Slf4j
 public class DataSourceController {
 
     @Autowired
@@ -28,6 +30,18 @@ public class DataSourceController {
     public Result<List<SourceType>> querySourceType(){
         List<SourceType> sourceType = dataSourceService.getSourceType();
         return Result.success(sourceType);
+    }
+
+    @PostMapping("/save")
+    public Result<Source> save(@RequestBody Source source){
+        Source save = null;
+        try {
+            save = dataSourceService.save(source);
+        } catch (DataSourceException e) {
+            log.info("保存数据出错", e);
+            return Result.failure(e.getErrorCode(), e.getMessage());
+        }
+        return Result.success(save);
     }
 
 

@@ -1,9 +1,12 @@
 package com.doris.odata.engine.data.source.model.property;
 
+import com.doris.odata.common.util.Base64Util;
 import com.doris.odata.engine.data.source.enums.SourceTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.util.Assert;
+
+import java.util.Base64;
 
 /**
  * @author: origindoris
@@ -38,6 +41,7 @@ public class MySqlSource extends SourceProperty {
         Assert.notNull(password, "数据源密码不能为空！");
         Assert.notNull(driverClassName, "数据源驱动程序类名不能为空！");
         Assert.notNull(projectName, "数据源数据库名称不能为空！");
+        password = Base64Util.encoder(password);
 
     }
 }

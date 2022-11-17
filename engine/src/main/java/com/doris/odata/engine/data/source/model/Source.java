@@ -12,6 +12,7 @@ import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 
 /**
@@ -40,7 +41,7 @@ public class Source extends BaseModel {
 
     @Column(name = "source_property")
     @Type(type = "json")
-    @NotBlank(message = "数据源属性不能为空！")
+    @NotNull(message = "数据源属性不能为空！")
     private JSONObject sourceProperty;
 
     @Column(name = "source_code")

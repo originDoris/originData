@@ -27,10 +27,7 @@ import javax.persistence.Query;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author: origindoris
@@ -99,14 +96,18 @@ public class DataSourceService {
     public Source save(@Valid @NotNull(message = "数据源信息不能为空！") Source source) throws DataSourceException {
         UserInfo userInfo = UserInfoThreadLocal.get();
         JSONObject sourceProperty = source.getSourceProperty();
-        SourcePropertyUtil.verify(sourceProperty);
+        source.setSourceProperty(SourcePropertyUtil.verify(sourceProperty));
         if (StringUtils.isBlank(source.getSourceCode())) {
             source.setSourceCode(IdGenerator.getNextId());
         }
         source.setCreator(userInfo.getEmpId());
         source.setCreatorName(userInfo.getNick());
         source.setTenantCode(userInfo.getTenantCode());
-        return dataSourceRepository.save(source);
+        source.setDeleteFlag(false);
+        source.setGmtCreate(new Date());
+        Source result = dataSourceRepository.save(source);
+        DynamicDataSourceFactory.addDataSource(result);
+        return result;
     }
 
     public Source detailByCode(@NotBlank(message = "数据源代码不能为空！") String sourceCode){

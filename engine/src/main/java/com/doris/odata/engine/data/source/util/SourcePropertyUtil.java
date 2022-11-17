@@ -24,9 +24,10 @@ import java.util.Optional;
 public class SourcePropertyUtil {
 
 
-    public static void verify(JSONObject jsonObject) throws DataSourceException {
+    public static JSONObject verify(JSONObject jsonObject) throws DataSourceException {
         SourceProperty convert = convert(jsonObject);
         convert.verifyParam();
+        return JSON.parseObject(JSON.toJSONString(convert));
     }
 
     public static SourceProperty convert(JSONObject jsonObject) throws DataSourceException {
