@@ -17,6 +17,10 @@ public class DataSourceConstant {
 
     public static final String SOURCE_TYPE = "sourceType";
 
+    public static final String SOURCE_NAME = "sourceName";
+
+    public static final String ID = "id";
+
     public static final String SOURCE_CODE = "sourceCode";
     public static final String DEFAULT_DATA_SOURCE_KEY = "default";
 

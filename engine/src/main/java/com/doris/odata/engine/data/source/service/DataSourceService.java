@@ -1,6 +1,7 @@
 package com.doris.odata.engine.data.source.service;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.doris.odata.common.annotation.PageEnhance;
 import com.doris.odata.common.enums.ErrorCode;
 import com.doris.odata.common.exception.DataProcessException;
 import com.doris.odata.common.exception.DataSourceException;
@@ -13,17 +14,27 @@ import com.doris.odata.engine.data.source.enums.SourceTypeEnum;
 import com.doris.odata.engine.data.source.factory.DynamicDataSourceFactory;
 import com.doris.odata.engine.data.source.model.Source;
 import com.doris.odata.engine.data.source.model.SourceType;
+import com.doris.odata.engine.data.source.model.query.SourceQuery;
 import com.doris.odata.engine.data.source.repository.DataSourceRepository;
 import com.doris.odata.engine.data.source.util.SourcePropertyUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -108,6 +119,27 @@ public class DataSourceService {
         Source result = dataSourceRepository.save(source);
         DynamicDataSourceFactory.addDataSource(result);
         return result;
+    }
+
+
+    @PageEnhance
+    public Page<Source> queryList(SourceQuery sourceQuery) {
+        Specification<Source> specification = new Specification<Source>() {
+            @Override
+            public Predicate toPredicate(Root<Source> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                List<Predicate> predicates = new ArrayList<>();
+                if(StringUtils.isNotBlank(sourceQuery.getSourceType())){
+                    predicates.add(criteriaBuilder.equal(root.get(DataSourceConstant.SOURCE_TYPE).as(String.class), sourceQuery.getSourceType()));
+                }
+                if(StringUtils.isNotBlank(sourceQuery.getSourceName())){
+                    Predicate likeNickName = criteriaBuilder.like(root.get(DataSourceConstant.SOURCE_NAME).as(String.class), "%" + DataSourceConstant.SOURCE_NAME + "%");
+                    predicates.add(likeNickName);
+                }
+                return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+            }
+        };
+        Pageable pageable = PageRequest.of(sourceQuery.getPage(), sourceQuery.getSize(), Sort.by(Sort.Direction.DESC, DataSourceConstant.ID));
+        return dataSourceRepository.findAll(specification, pageable);
     }
 
     public Source detailByCode(@NotBlank(message = "数据源代码不能为空！") String sourceCode){

@@ -4,9 +4,11 @@ import com.doris.odata.common.exception.DataSourceException;
 import com.doris.odata.common.model.Result;
 import com.doris.odata.engine.data.source.model.Source;
 import com.doris.odata.engine.data.source.model.SourceType;
+import com.doris.odata.engine.data.source.model.query.SourceQuery;
 import com.doris.odata.engine.data.source.service.DataSourceService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +32,12 @@ public class DataSourceController {
     public Result<List<SourceType>> querySourceType(){
         List<SourceType> sourceType = dataSourceService.getSourceType();
         return Result.success(sourceType);
+    }
+
+    @GetMapping("/queryList")
+    public Result<Page<Source>> queryList(SourceQuery sourceQuery){
+        Page<Source> sources = dataSourceService.queryList(sourceQuery);
+        return Result.success(sources);
     }
 
     @PostMapping("/save")
