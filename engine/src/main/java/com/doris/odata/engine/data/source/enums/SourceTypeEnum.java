@@ -62,4 +62,13 @@ public enum SourceTypeEnum {
 
         return any.get().getQueryConfigClass();
     }
+
+
+    public static SourceTypeEnum getSourceType(String code){
+        Optional<SourceTypeEnum> any = Arrays.stream(SourceTypeEnum.values()).filter(numberFormat -> code.equals(numberFormat.getType())).findAny();
+        if (any.isEmpty()) {
+            return null;
+        }
+        return any.get();
+    }
 }

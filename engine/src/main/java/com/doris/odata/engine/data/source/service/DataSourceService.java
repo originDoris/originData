@@ -14,16 +14,15 @@ import com.doris.odata.engine.data.source.enums.SourceTypeEnum;
 import com.doris.odata.engine.data.source.factory.DynamicDataSourceFactory;
 import com.doris.odata.engine.data.source.model.Source;
 import com.doris.odata.engine.data.source.model.SourceType;
+import com.doris.odata.engine.data.source.model.dto.SourceDTO;
 import com.doris.odata.engine.data.source.model.query.SourceQuery;
 import com.doris.odata.engine.data.source.repository.DataSourceRepository;
+import com.doris.odata.engine.data.source.util.SourceBeanUtil;
 import com.doris.odata.engine.data.source.util.SourcePropertyUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -123,7 +122,7 @@ public class DataSourceService {
 
 
     @PageEnhance
-    public Page<Source> queryList(SourceQuery sourceQuery) {
+    public Page<SourceDTO> queryList(SourceQuery sourceQuery) {
         Specification<Source> specification = new Specification<Source>() {
             @Override
             public Predicate toPredicate(Root<Source> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
@@ -139,7 +138,8 @@ public class DataSourceService {
             }
         };
         Pageable pageable = PageRequest.of(sourceQuery.getPage(), sourceQuery.getSize(), Sort.by(Sort.Direction.DESC, DataSourceConstant.ID));
-        return dataSourceRepository.findAll(specification, pageable);
+        Page<Source> dataPage = dataSourceRepository.findAll(specification, pageable);
+        return new PageImpl<>(SourceBeanUtil.buildSourceDTO(dataPage.getContent()), dataPage.getPageable(), dataPage.getTotalElements());
     }
 
     public Source detailByCode(@NotBlank(message = "数据源代码不能为空！") String sourceCode){

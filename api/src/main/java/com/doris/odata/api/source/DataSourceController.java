@@ -4,6 +4,7 @@ import com.doris.odata.common.exception.DataSourceException;
 import com.doris.odata.common.model.Result;
 import com.doris.odata.engine.data.source.model.Source;
 import com.doris.odata.engine.data.source.model.SourceType;
+import com.doris.odata.engine.data.source.model.dto.SourceDTO;
 import com.doris.odata.engine.data.source.model.query.SourceQuery;
 import com.doris.odata.engine.data.source.service.DataSourceService;
 import lombok.extern.slf4j.Slf4j;
@@ -35,8 +36,8 @@ public class DataSourceController {
     }
 
     @GetMapping("/queryList")
-    public Result<Page<Source>> queryList(SourceQuery sourceQuery){
-        Page<Source> sources = dataSourceService.queryList(sourceQuery);
+    public Result<Page<SourceDTO>> queryList(SourceQuery sourceQuery){
+        Page<SourceDTO> sources = dataSourceService.queryList(sourceQuery);
         return Result.success(sources);
     }
 

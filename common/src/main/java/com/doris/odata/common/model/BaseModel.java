@@ -1,5 +1,7 @@
 package com.doris.odata.common.model;
 
+import com.alibaba.fastjson2.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -27,11 +29,13 @@ public class BaseModel {
     @Column(name = "gmt_create")
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     protected Date gmtCreate;
 
     @Column(name = "gmt_modified")
     @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     protected Date gmtModified;
 
     @Column(name = "delete_flag")
