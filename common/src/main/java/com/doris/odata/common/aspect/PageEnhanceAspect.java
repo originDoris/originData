@@ -34,6 +34,7 @@ public class PageEnhanceAspect {
         for (Object arg : args) {
             if (arg instanceof BaseQuery) {
                 baseQuery = (BaseQuery) arg;
+                break;
             }
         }
         if (baseQuery == null) {

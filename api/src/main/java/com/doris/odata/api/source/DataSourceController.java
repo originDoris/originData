@@ -53,5 +53,10 @@ public class DataSourceController {
         return Result.success(save);
     }
 
+    @GetMapping("/remove")
+    public Result<Boolean> remove(@RequestParam("id") Long id) {
+        boolean remove = dataSourceService.remove(id);
+        return Result.success(remove);
+    }
 
 }

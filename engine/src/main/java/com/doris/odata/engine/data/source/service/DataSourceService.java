@@ -120,6 +120,11 @@ public class DataSourceService {
         return result;
     }
 
+    public boolean remove(@NotNull(message = "数据源Id不能为空！") Long id){
+        dataSourceRepository.deleteById(id);
+        return true;
+    }
+
 
     @PageEnhance
     public Page<SourceDTO> queryList(SourceQuery sourceQuery) {
