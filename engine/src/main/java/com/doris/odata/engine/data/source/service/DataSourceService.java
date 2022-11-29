@@ -19,6 +19,7 @@ import com.doris.odata.engine.data.source.model.query.SourceQuery;
 import com.doris.odata.engine.data.source.repository.DataSourceRepository;
 import com.doris.odata.engine.data.source.util.SourceBeanUtil;
 import com.doris.odata.engine.data.source.util.SourcePropertyUtil;
+import com.doris.odata.engine.data.source.util.SourceSpecificationUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Lazy;
@@ -128,22 +129,8 @@ public class DataSourceService {
 
     @PageEnhance
     public Page<SourceDTO> queryList(SourceQuery sourceQuery) {
-        Specification<Source> specification = new Specification<Source>() {
-            @Override
-            public Predicate toPredicate(Root<Source> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-                List<Predicate> predicates = new ArrayList<>();
-                if(StringUtils.isNotBlank(sourceQuery.getSourceType())){
-                    predicates.add(criteriaBuilder.equal(root.get(DataSourceConstant.SOURCE_TYPE).as(String.class), sourceQuery.getSourceType()));
-                }
-                if(StringUtils.isNotBlank(sourceQuery.getSourceName())){
-                    Predicate likeNickName = criteriaBuilder.like(root.get(DataSourceConstant.SOURCE_NAME).as(String.class), "%" + DataSourceConstant.SOURCE_NAME + "%");
-                    predicates.add(likeNickName);
-                }
-                return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
-            }
-        };
         Pageable pageable = PageRequest.of(sourceQuery.getPage(), sourceQuery.getSize(), Sort.by(Sort.Direction.DESC, DataSourceConstant.ID));
-        Page<Source> dataPage = dataSourceRepository.findAll(specification, pageable);
+        Page<Source> dataPage = dataSourceRepository.findAll(SourceSpecificationUtil.buildSpecification(sourceQuery), pageable);
         return new PageImpl<>(SourceBeanUtil.buildSourceDTO(dataPage.getContent()), dataPage.getPageable(), dataPage.getTotalElements());
     }
 
